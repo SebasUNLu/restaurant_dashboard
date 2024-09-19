@@ -33,20 +33,12 @@ export class RolesGuard implements CanActivate {
           secret: jwtConstants.secret
         }
       );
-      console.log("required: ", requiredRoles);
-      
-      console.log("payload: ", payload);
       
       return requiredRoles.some((role) => payload.roles?.includes(role));
       
     } catch (error) {
       throw new UnauthorizedException();
     }
-    // const { user } = context.switchToHttp().getRequest();
-    // console.log('user:', user);
-    // if (!user) {
-    //   return false; // Usuario no autenticado
-    // }
   }
 
   private extractTokenFromHeader(request: Request): string | undefined {
