@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from './TypeOrm/user.entity';
 import { Repository } from 'typeorm';
@@ -18,8 +18,11 @@ export class UserService {
     return this.usersRepository.find();
   }
 
-  findOne(id: number): Promise<UserEntity | null> {
-    return this.usersRepository.findOneBy({ id });
+  async findOne(id: number): Promise<UserEntity | null> {
+    let userFound = await this.usersRepository.findOneBy({ id });
+    if (!userFound)
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+    return userFound;
   }
 
   findOneByEmail(email: string): Promise<UserEntity | null> {
@@ -32,7 +35,7 @@ export class UserService {
       email,
       name,
       password: hashedPass,
-      roles: ["admin"]
+      roles: ['admin'],
     });
     return this.usersRepository.save(newUser);
   }

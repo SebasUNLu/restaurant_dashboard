@@ -13,12 +13,19 @@ export class UserController {
     return this.service.findAll();
   }
 
-  @Get("secret")
+  @Get('secret')
+  // requiere un usuario con el rol de admin
   @Roles(Role.Admin)
   getSecret() {
     return {
       message: 'you did it',
     };
+  }
+
+  @Get('/:id')
+  async getOneUser(@Param('id') id: number) {
+    // return user
+    return this.service.findOne(id);
   }
 
   @Post()
