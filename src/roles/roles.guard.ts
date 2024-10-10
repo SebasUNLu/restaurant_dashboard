@@ -19,6 +19,8 @@ export class RolesGuard implements CanActivate {
     if (!requiredRoles) {
       return true;
     }
+
+    // en caso de tener requisitos, comprueba el rol del usuario
     // obtiene el token
     const request = context.switchToHttp().getRequest();
     const token = this.extractTokenFromHeader(request);

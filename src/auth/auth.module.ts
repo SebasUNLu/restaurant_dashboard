@@ -14,7 +14,7 @@ import { BcryptService } from 'src/bcrypt/bcrypt.service';
     JwtModule.register({
       global: true,
       secret: "clavepanadero",
-      signOptions: { expiresIn: '60s' },
+      signOptions: { expiresIn: '7d' },
     }),
   ],
   exports: [AuthService, BcryptService],
