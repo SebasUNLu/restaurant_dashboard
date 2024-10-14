@@ -4,11 +4,12 @@ import { Role } from './enum';
 import { ROLES_KEY } from './roles.decorator';
 import { Request } from 'express';
 import { JwtService } from '@nestjs/jwt';
-import { jwtConstants } from 'src/auth/constants';
 
 @Injectable()
 export class RolesGuard implements CanActivate {
-  constructor(private reflector: Reflector, private jwtService: JwtService) {}
+  constructor(private reflector: Reflector, private jwtService: JwtService) {
+
+  }
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const requiredRoles = this.reflector.getAllAndOverride<Role[]>(ROLES_KEY, [
@@ -32,10 +33,9 @@ export class RolesGuard implements CanActivate {
       const payload = await this.jwtService.verifyAsync(
         token,
         {
-          secret: jwtConstants.secret
+          secret: process.env.JWT_KEY
         }
       );
-      
       return requiredRoles.some((role) => payload.roles?.includes(role));
       
     } catch (error) {

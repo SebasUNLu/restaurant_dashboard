@@ -8,8 +8,11 @@ import { BcryptService } from './bcrypt/bcrypt.service';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+      cache: true
+    }),
     UserModule,
-    ConfigModule.forRoot(),
     TypeOrmModule.forRoot({
       type: 'postgres',
       url: process.env.DATABASE_URL,
